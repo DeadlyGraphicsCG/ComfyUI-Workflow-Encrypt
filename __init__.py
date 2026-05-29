@@ -74,8 +74,11 @@ def run_script(cmd, cwd='.'):
 
     return process.wait()
 
+NODE_CLASS_MAPPINGS = {}
+NODE_DISPLAY_NAME_MAPPINGS = {}
+
 try:
-    from nodes import NODE_CLASS_MAPPINGS
+    import cryptography
 except:
     requirements_path = os.path.join(comfyui_workflow_encrypt_path, "requirements.txt")
 
@@ -84,13 +87,13 @@ except:
     run_script([sys.executable, '-s', '-m', 'pip', 'install', '-r', requirements_path])
 
     try:
-        from nodes import NODE_CLASS_MAPPINGS
+        import cryptography
     except:
         print(f"## [ERROR] ComfyUI-Workflow-Encrypt: Attempting to reinstall dependencies using an alternative method.")
         run_script([sys.executable, '-s', '-m', 'pip', 'install', '--user', '-r', requirements_path])
 
         try:
-            from .nodes import NODE_CLASS_MAPPINGS
+            import cryptography
         except:
             print(f"## [ERROR] ComfyUI-Workflow-Encrypt: Failed to install package in the correct Python environment.")
             traceback.print_exc()
@@ -148,4 +151,4 @@ async def load_decrypted_method(request):
 
         return web.json_response(json_obj, content_type='application/json')
 
-__all__ = ['NODE_CLASS_MAPPINGS']
+__all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS']
